@@ -179,6 +179,7 @@
     "update-notifier": "^5.1.0",
     "url-parse-lax": "^3.0.0",
     "utils-merge": "^1.0.1",
+    "uuid": "^9.0.0",
     "v8-compile-cache-lib": "^3.0.1",
     "validator": "^13.9.0",
     "vary": "^1.1.2",

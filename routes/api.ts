@@ -1,6 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import  { UserController} from "../controllers/user.controller";
 import {validate} from "../helper/validate";
+import { body } from 'express-validator';
+
 
 let route = express.Router();
 
@@ -23,7 +25,7 @@ route.get('/', function (req, res) {
 
   let val= new validate();
   route.get('/users',user_controller.getUsers);
-  route.post('/store-user',val.signupValidation,user_controller.storeUser);
+  route.post('/store-user',user_controller.storeUser);
 // Export the router
 export = route;
 

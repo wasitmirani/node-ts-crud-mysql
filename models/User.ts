@@ -12,7 +12,6 @@ export class  User {
 
         
     store=(user: NewUser, response: Response, next: NextFunction)=> {
- 
         let body=user;
         // let query= `INSERT INTO users (name,email,password,phone) VALUES(${data.name},${data.email},${data.password},${data.phone});`;
         let query="INSERT INTO users SET ?";
@@ -21,4 +20,19 @@ export class  User {
         });
            
     } // end store method   
+    
+    find=(id:string,response:Response,next:NextFunction)=>{ 
+       let query="select * from users where id ="+id;
+       return db.query(query).then((data) => {
+            return   response.status(200).json({'status' : true,'user':data});
+        });
+    }
+    
+    delete=(id:string,response:Response,next:NextFunction)=>{
+        let query="select * from users where id ="+id;
+        return db.query(query).then((data) => {
+             return   response.status(200).json({'status' : true,'user':data});
+         });
+    
+    }
 }

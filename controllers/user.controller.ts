@@ -34,6 +34,10 @@ export class UserController {
               return response.status(400).json({ error: errorMessage });
             }
             //  request;
+            // check user is exists 
+            const is_user=await user.findUserByEmail( request.body.email);
+            console.log("user=",is_user);
+            
             // get uuid from helper function of uid
             request.body.uid=helper.get_uuid();
             let newUser: NewUser = request.body;

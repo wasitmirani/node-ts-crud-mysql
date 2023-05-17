@@ -22,11 +22,28 @@ export class  User {
     } // end store method   
     
     find=(id:string,response:Response,next:NextFunction)=>{ 
-       let query="select * from users where id ="+id;
+       let query="select * from users where id ="+id+';';
        return db.query(query).then((data) => {
             return   response.status(200).json({'status' : true,'user':data});
         });
     }
+
+    async  findUserByEmail(email: string): Promise<NewUser | any> {
+          const query = `SELECT * FROM users WHERE email = '${email}' order by id DESC LIMIT 1;`;
+          return db.query(query).then((data) => {
+            const user_data = data as User;
+            return user_data;
+            // return   response.status(200).json({'status' : true,'user':data});
+        //   connection.query(query, (error, results) => {
+        //     if (error) {
+        //       reject(error);
+        //     } else {
+        //       const user = results[0] as User;
+        //       resolve(user);
+        //     }
+        //   });
+        });
+      }
     
     delete=(id:string,response:Response,next:NextFunction)=>{
         let query="select * from users where id ="+id;

@@ -25,7 +25,7 @@ route.get('/', function (req, res) {
 
   let val= new validate();
   route.get('/users',user_controller.getUsers);
-  route.post('/store-user',user_controller.storeUser);
+  route.post('/store-user',val.signupValidation,user_controller.storeUser);
   route.get('/user/:id',user_controller.findUser);
 // Export the router
 export = route;

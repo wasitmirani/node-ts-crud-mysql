@@ -4,20 +4,26 @@ import { NewUser } from '../interface/NewUser';
 import { body, validationResult } from 'express-validator';
 import { helpers } from '../helper/helpers';
 import{validate} from "../helper/validate";
+import { error } from 'console';
 const user = new User();
 const helper = new helpers();
 const validate_= new validate();
 
 export class UserController {
-    async getUsers(request: Request, response: Response, next: NextFunction): Promise<Response | void> {
+  
+    async getUsers(request:Request,response:Response,next:NextFunction): Promise<Response | any> {
         try {
-            return user.getUsers(request, response, next);
+            return user.users().then((users)=>{
+                return response.status(200).json({ users: users });
+            }).catch((error)=>{
+                return response.status(400).json({ error: error });
+            });
         }
         catch (e) {
-            console.log(e)
+            return response.status(400).json({ error: e });
         }
     }
-
+  
     async storeUser(request: Request, response: Response, next:NextFunction):Promise<Response | void> {
         try {
                           
@@ -35,28 +41,35 @@ export class UserController {
             }
             //  request;
             // check user is exists 
-            const is_user=await user.findUserByEmail( request.body.email);
-            console.log("user=",is_user);
+            // const is_user=await user.findUserByEmail(request.body.email);
+            // if(is_user?.email && is_user!=null){
+            //     return response.status(422).json({ 'message': 'The email has already been taken.' });
+            // }
             
             // get uuid from helper function of uid
             request.body.uid=helper.get_uuid();
             let newUser: NewUser = request.body;
-            return user.store(newUser, response, next);
+           return user.create(newUser, next).then((user)=>{
+            return response.status(200).json({ 'message':"user has been created successfully",user: newUser });
+                }).catch((error)=>{
+                    return response.status(400).json({ error: error });
+                });
+             
         }
         catch (e) {
             console.log(e);
         }
     }   
     
-  async updateUser(request: Request, response: Response, next:NextFunction):Promise<Response | void>{
+//   async updateUser(request: Request, response: Response, next:NextFunction):Promise<Response | void>{
   
   
-  }
+//   }
   
-    async findUser(request: Request, response: Response, next:NextFunction):Promise<Response | void>{
-        const id=request.params.id;
-        return user.find(id, response, next);
-    }
+//     async findUser(request: Request, response: Response, next:NextFunction):Promise<Response | void>{
+//         const id=request.params.id;
+//         return user.find(id, response, next);
+//     }
 
 }
 

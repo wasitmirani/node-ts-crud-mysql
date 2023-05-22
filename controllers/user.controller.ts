@@ -53,7 +53,7 @@ export class UserController {
             return response.status(200).json({ 'message':"user has been created successfully",user: newUser });
                 }).catch((error)=>{
                     return response.status(400).json({ error: error });
-                });
+            });
              
         }
         catch (e) {

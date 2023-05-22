@@ -23,10 +23,12 @@ route.get('/', function (req, res) {
 
 
   const user_controller = new UserController();
+  const auth_controller = new AuthController();
 
   let val= new validate();
   route.get('/users',user_controller.getUsers);
-  // route.post('/auth/signin');
+  route.post('/auth/login',auth_controller.login);
+  route.post('/auth/register',auth_controller.register);
   route.post('/store-user',val.signupValidation,user_controller.storeUser);
   // route.get('/user/:id',user_controller.findUser);
 // Export the router

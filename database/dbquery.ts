@@ -8,7 +8,6 @@ export async function executeQuery(query: string, values?: any[]): Promise<any> 
       connection.query(query, values, (error, results) => {
         connection.release(); // Release the connection back to the pool
         if (error) {
-            
           reject(error);
         } else {
             // console.log("result: " ,results);

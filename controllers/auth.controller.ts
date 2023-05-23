@@ -49,6 +49,27 @@ export class AuthController {
         }
         
     }
+    
+    async dashboard(request: Request, response: Response,next:NextFunction) : Promise<Response | any>{
+        const token = request.headers.authorization;
+
+        if (!token) {
+          return response.status(401).json({ message: 'No token provided' });
+        }
+        const jwt_secret=process.env.JWT_SECRET;
+        try {
+            const decoded = jwt.verify(token, jwt_secret);
+            console.log(decoded);
+            const userId = decoded.userId;
+        
+            // Fetch user data from the database based on the userId
+        
+            return response.status(200).json({ userId });
+          } catch (error) {
+            console.error('Error verifying token:', error);
+            return response.status(401).json({ message: 'Invalid token' });
+          }
+    }
     async login(request: Request, response: Response, next: NextFunction): Promise<Response | any> {
         try {
             const email=request.body.email;
